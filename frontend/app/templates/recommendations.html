@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Recomendações - Recommendation Engine{% endblock %}
+
+{% block content %}
+<div class="card">
+    {% if user %}
+    <h2>🎯 Recomendações para {{ user.username }}</h2>
+
+    <div style="margin: 20px 0;">
+        <strong>Algoritmo:</strong>
+        <span class="badge badge-primary">{{ algorithm }}</span>
+    </div>
+
+    {% if recommendations and recommendations.recommendations %}
+    <div style="margin-top: 30px;">
+        {% for rec in recommendations.recommendations %}
+        <div class="recommendation-item">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                    <h3 style="margin: 0 0 10px 0; color: #333;">
+                        #{{ rec.rank }} - {{ rec.title }}
+                    </h3>
+                    {% if rec.description %}
+                    <p style="color: #666; margin: 5px 0;">{{ rec.description }}</p>
+                    {% endif %}
+                    {% if rec.category %}
+                    <span class="badge badge-warning">{{ rec.category }}</span>
+                    {% endif %}
+                </div>
+                <div style="text-align: right;">
+                    <div class="score" style="font-size: 24px;">
+                        {{ "%.3f"|format(rec.score) }}
+                    </div>
+                    <small style="color: #999;">score</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align: center; color: #999; padding: 40px;">
+        Nenhuma recomendação disponível. O usuário precisa ter mais interações.
+    </p>
+    {% endif %}
+
+    <div style="margin-top: 30px;">
+        <a href="/users" class="btn">Voltar para Usuários</a>
+        <a href="/interact" class="btn btn-secondary">Registrar Interação</a>
+    </div>
+    {% else %}
+    <p style="color: red;">Usuário não encontrado.</p>
+    <a href="/users" class="btn">Voltar para Usuários</a>
+    {% endif %}
+</div>
+{% endblock %}

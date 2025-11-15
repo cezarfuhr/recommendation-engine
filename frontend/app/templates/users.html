@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Usuários - Recommendation Engine{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>👥 Usuários</h2>
+        <a href="/users/create" class="btn">➕ Criar Usuário</a>
+    </div>
+
+    {% if users %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Criado em</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td><strong>{{ user.username }}</strong></td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.created_at[:10] }}</td>
+                <td>
+                    <a href="/recommendations/{{ user.id }}" class="btn" style="padding: 5px 10px; font-size: 12px;">
+                        Ver Recomendações
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; color: #999; padding: 40px;">
+        Nenhum usuário encontrado. <a href="/users/create">Criar primeiro usuário</a>
+    </p>
+    {% endif %}
+</div>
+{% endblock %}

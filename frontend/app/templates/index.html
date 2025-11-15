@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Recommendation Engine{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>🎯 Bem-vindo ao Sistema de Recomendação</h2>
+    <p style="margin-bottom: 30px; font-size: 16px; color: #666;">
+        Sistema completo de recomendações com múltiplos algoritmos e recursos em tempo real.
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px;">
+        <div style="padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; color: white;">
+            <h3 style="color: white; margin-bottom: 10px;">🤝 Collaborative Filtering</h3>
+            <p>Encontra padrões em interações de usuários similares</p>
+        </div>
+
+        <div style="padding: 20px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 10px; color: white;">
+            <h3 style="color: white; margin-bottom: 10px;">📄 Content-Based</h3>
+            <p>Analisa características dos itens para encontrar similares</p>
+        </div>
+
+        <div style="padding: 20px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 10px; color: white;">
+            <h3 style="color: white; margin-bottom: 10px;">🧠 Hybrid</h3>
+            <p>Combina múltiplas abordagens para melhores resultados</p>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <h3 style="color: #667eea; margin-bottom: 20px;">🚀 Funcionalidades</h3>
+        <ul style="list-style: none; padding-left: 0;">
+            <li style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px;">
+                ✅ Algoritmos de collaborative filtering, content-based e hybrid
+            </li>
+            <li style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px;">
+                ✅ Atualizações em tempo real com Redis
+            </li>
+            <li style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px;">
+                ✅ Framework de A/B Testing
+            </li>
+            <li style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px;">
+                ✅ API RESTful completa
+            </li>
+            <li style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px;">
+                ✅ Processamento em batch com Apache Spark
+            </li>
+        </ul>
+    </div>
+
+    <div style="margin-top: 40px; text-align: center;">
+        <a href="/users/create" class="btn" style="margin: 10px;">Criar Usuário</a>
+        <a href="/items/create" class="btn btn-secondary" style="margin: 10px;">Criar Item</a>
+        <a href="/interact" class="btn" style="margin: 10px;">Registrar Interação</a>
+    </div>
+</div>
+{% endblock %}

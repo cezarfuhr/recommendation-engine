@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Criar Item - Recommendation Engine{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>➕ Criar Novo Item</h2>
+
+    <form method="post" action="/items/create">
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descrição</label>
+            <textarea id="description" name="description" rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Categoria</label>
+            <input type="text" id="category" name="category">
+        </div>
+
+        <div class="form-group">
+            <label for="tags">Tags (separadas por vírgula)</label>
+            <input type="text" id="tags" name="tags" placeholder="Ex: ação, aventura, ficção">
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn">Criar Item</button>
+            <a href="/items" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -119,6 +119,74 @@ services:
       - ./spark/jobs:/opt/spark-jobs
       - spark_data:/opt/spark-data
 
+  # Celery Worker (Background Jobs)
+  celery-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: recommendation-celery-worker
+    command: celery -A app.tasks.celery_config worker --loglevel=info
+    environment:
+      POSTGRES_USER: recommender
+      POSTGRES_PASSWORD: recommender_pass
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: recommendation_engine
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      CELERY_BROKER_URL: redis://redis:6379/2
+      CELERY_RESULT_BACKEND: redis://redis:6379/3
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  # Celery Beat (Scheduler)
+  celery-beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: recommendation-celery-beat
+    command: celery -A app.tasks.celery_config beat --loglevel=info
+    environment:
+      POSTGRES_USER: recommender
+      POSTGRES_PASSWORD: recommender_pass
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: recommendation_engine
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      CELERY_BROKER_URL: redis://redis:6379/2
+      CELERY_RESULT_BACKEND: redis://redis:6379/3
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  # Flower (Celery Monitoring)
+  flower:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: recommendation-flower
+    command: celery -A app.tasks.celery_config flower --port=5555
+    ports:
+      - "5555:5555"
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379/2
+      CELERY_RESULT_BACKEND: redis://redis:6379/3
+    depends_on:
+      - redis
+      - celery-worker
+    volumes:
+      - ./backend:/app
+
 volumes:
   postgres_data:
     driver: local

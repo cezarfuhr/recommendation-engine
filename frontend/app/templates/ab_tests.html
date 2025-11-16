@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}A/B Tests - Recommendation Engine{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>📊 A/B Tests</h2>
+
+    {% if ab_tests %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Variante A</th>
+                <th>Variante B</th>
+                <th>Split</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for test in ab_tests %}
+            <tr>
+                <td>{{ test.id }}</td>
+                <td><strong>{{ test.name }}</strong></td>
+                <td>
+                    <span class="badge badge-primary">
+                        {{ test.variant_a_name }}: {{ test.variant_a_algorithm }}
+                    </span>
+                </td>
+                <td>
+                    <span class="badge badge-warning">
+                        {{ test.variant_b_name }}: {{ test.variant_b_algorithm }}
+                    </span>
+                </td>
+                <td>{{ (test.split_ratio * 100)|int }}% / {{ ((1 - test.split_ratio) * 100)|int }}%</td>
+                <td>
+                    {% if test.is_active %}
+                    <span class="badge badge-success">Ativo</span>
+                    {% else %}
+                    <span class="badge">Inativo</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; color: #999; padding: 40px;">
+        Nenhum teste A/B configurado.
+    </p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Itens - Recommendation Engine{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>📦 Itens</h2>
+        <a href="/items/create" class="btn">➕ Criar Item</a>
+    </div>
+
+    {% if items %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Categoria</th>
+                <th>Popularidade</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td><strong>{{ item.title }}</strong></td>
+                <td>
+                    {% if item.category %}
+                    <span class="badge badge-primary">{{ item.category }}</span>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="score">{{ "%.2f"|format(item.popularity_score) }}</span>
+                </td>
+                <td>
+                    {% if item.tags %}
+                        {% for tag in item.tags %}
+                        <span class="badge badge-success">{{ tag }}</span>
+                        {% endfor %}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; color: #999; padding: 40px;">
+        Nenhum item encontrado. <a href="/items/create">Criar primeiro item</a>
+    </p>
+    {% endif %}
+</div>
+{% endblock %}
